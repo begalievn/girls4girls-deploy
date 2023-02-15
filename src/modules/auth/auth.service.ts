@@ -39,13 +39,15 @@ export class AuthService {
       throw new BadRequestException('User already exists');
     }
 
+    const sixDigitCode = Math.random().toString().substr(2, 6);
+
     const body = `<?xml version="1.0" encoding="UTF-8"?>
                    <message>
                     <login>begalievn</login>
                     <pwd>Jda2XvVp</pwd>
                     <id>${Math.random().toString().substr(2, 6)}</id>
                     <sender>SMSPRO.KG</sender>
-                    <text>Код для подтверждения 1122</text>
+                    <text>Код для подтверждения ${sixDigitCode}</text>
                     <time></time>
                     <phones>
                       <phone>${createUserDto.phoneNumber}</phone>
@@ -81,9 +83,7 @@ export class AuthService {
       phoneNumber: user.phoneNumber,
       role: user.role,
     };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    return this.generateJwtTokens(payload);
   }
 
   async sendEmailConfirmation(user: User) {
@@ -109,6 +109,30 @@ export class AuthService {
 
   private async generateToken(data, options?: SignOptions) {
     return this.jwtService.sign(data, options);
+  }
+
+  private async generateJwtTokens(payload: any) {
+    const { accessTokenExpiresIn, refreshTokenExpiresIn } =
+      this.configService.get('jwt');
+
+    return {
+      accessToken: this.jwtService.sign(
+        {
+          ...payload,
+        },
+        {
+          expiresIn: accessTokenExpiresIn,
+        },
+      ),
+      refreshToken: this.jwtService.sign(
+        {
+          ...payload,
+        },
+        {
+          expiresIn: refreshTokenExpiresIn,
+        },
+      ),
+    };
   }
 
   private async verifyToken(token) {

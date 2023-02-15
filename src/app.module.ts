@@ -8,6 +8,7 @@ import { MailModule } from './modules/mail/mail.module';
 import { ImageModule } from './modules/image/image.module';
 import { Image } from './modules/image/entities/image.entity';
 import { CloudinaryModule } from './services/cloudinary/cloudinary.module';
+import { jwtConfig } from './configs';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CloudinaryModule } from './services/cloudinary/cloudinary.module';
     AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [jwtConfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
