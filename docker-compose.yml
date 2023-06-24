@@ -22,3 +22,11 @@ services:
     volumes:
       - db-volume:/var/lib/postgres/data
 
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - api
