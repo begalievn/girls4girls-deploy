@@ -99,10 +99,10 @@ export class AuthService {
 
     const newUser = await this.usersService.create(createUserDto);
 
-    const emailResponse = await this.sendEmailConfirmation(
-      newUser,
-      codeToConfirm,
-    );
+    // const emailResponse = await this.sendEmailConfirmation(
+    //   newUser,
+    //   codeToConfirm,
+    // );
     return newUser;
   }
 
@@ -215,7 +215,7 @@ export class AuthService {
 
     await this.saveConfirmCode(confirmCodeDto);
 
-    await this.sendEmailConfirmation(user, codeToConfirm);
+    // await this.sendEmailConfirmation(user, codeToConfirm);
 
     await this.smsNikitaService.sendSms(user.phoneNumber, codeToConfirm);
 
