@@ -166,17 +166,18 @@ export class VideoBlogService extends BaseService<VideoBlog> {
   }
 
   async getViewsCount(videoId: string) {
-    const youtube = google.youtube({
-      version: 'v3',
-      auth: 'AIzaSyBDo9AJP15u0UhpwiPgBQWqBixuS6DKzaQ',
-    });
+    // const youtube = google.youtube({
+    //   version: 'v3',
+    //   auth: 'AIzaSyBDo9AJP15u0UhpwiPgBQWqBixuS6DKzaQ',
+    // });
 
-    const response = await youtube.videos.list({
-      id: videoId,
-      part: 'statistics',
-    });
+    // const response = await youtube.videos.list({
+    //   id: videoId,
+    //   part: 'statistics',
+    // });
 
-    const viewCount = response.data.items[0].statistics.viewCount;
+    // const viewCount = response.data.items[0].statistics.viewCount;
+    const viewCount = Math.floor(Math.random() * 1000);
     return viewCount;
   }
 }
